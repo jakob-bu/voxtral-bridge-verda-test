@@ -1,0 +1,21 @@
+{
+  "name": "voxtral-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Hyprnote Deepgram-compatible bridge for vLLM Voxtral realtime",
+  "scripts": {
+    "start": "node src/index.js",
+    "start:gateway": "node src/gateway.js",
+    "dev": "node --watch src/index.js",
+    "dev:gateway": "node --watch src/gateway.js",
+    "doctor": "node src/doctor.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
+  }
+}
