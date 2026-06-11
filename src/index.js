@@ -26,7 +26,10 @@ const server = http.createServer((req, res) => {
   res.end(JSON.stringify({ error: "not_found" }));
 });
 
-const wsServer = new WebSocketServer({ noServer: true });
+const wsServer = new WebSocketServer({
+  noServer: true,
+  perMessageDeflate: false,
+});
 
 function log(event, meta = {}) {
   const payload = Object.keys(meta).length ? ` ${JSON.stringify(meta)}` : "";

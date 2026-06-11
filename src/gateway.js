@@ -498,7 +498,10 @@ const server = http.createServer((req, res) => {
   res.end(JSON.stringify({ error: "not_found" }));
 });
 
-const wsServer = new WebSocketServer({ noServer: true });
+const wsServer = new WebSocketServer({
+  noServer: true,
+  perMessageDeflate: false,
+});
 
 function rejectUnauthorizedUpgrade(request, socket, head) {
   wsServer.handleUpgrade(request, socket, head, (clientSocket) => {
