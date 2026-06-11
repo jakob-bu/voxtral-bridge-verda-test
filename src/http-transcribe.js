@@ -7,6 +7,7 @@ const host = process.env.HTTP_HOST || "0.0.0.0";
 const port = Number.parseInt(process.env.HTTP_PORT || process.env.PORT || "8787", 10);
 const bridgeUrl = process.env.BRIDGE_WS_URL || "ws://127.0.0.1:8788/stt/listen";
 const requiredApiKey = process.env.INBOUND_API_KEY || process.env.REQUIRED_API_KEY || "";
+const trustIngressAuth = process.env.TRUST_INGRESS_AUTH === "1";
 
 function getAuthorizationToken(headers) {
   const value = headers.authorization || headers.Authorization;
@@ -16,6 +17,7 @@ function getAuthorizationToken(headers) {
 }
 
 function hasValidApiKey(req) {
+  if (trustIngressAuth) return true;
   return !requiredApiKey || getAuthorizationToken(req.headers) === requiredApiKey;
 }
 
@@ -105,7 +107,7 @@ async function streamToBridge({ req, res, wav, startedAt, options }) {
   u.searchParams.set("channels", String(fmt.channels));
   u.searchParams.set("model", options.model);
 
-  const apiKey = getAuthorizationToken(req.headers);
+  const apiKey = requiredApiKey || getAuthorizationToken(req.headers);
   const headers = apiKey ? { Authorization: `Bearer ${apiKey}` } : {};
   const ws = new WebSocket(u, { headers, perMessageDeflate: false });
 

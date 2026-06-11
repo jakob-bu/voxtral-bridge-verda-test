@@ -116,5 +116,6 @@ echo "[verda-http] starting public HTTP/SSE adapter on ${HTTP_HOST}:${HTTP_PORT}
 export HTTP_HOST
 export HTTP_PORT
 export BRIDGE_WS_URL="ws://${BRIDGE_HOST}:${BRIDGE_PORT}/stt/listen"
+export TRUST_INGRESS_AUTH="${TRUST_INGRESS_AUTH:-1}"
 
 exec node src/http-transcribe.js
